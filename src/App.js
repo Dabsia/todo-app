@@ -1,46 +1,26 @@
-import React, {Component} from 'react';
-import './App.css'
-import InputTask from './components/inputTask';
+import React, {useState} from 'react';
+import './App.css';
+import AddUsers from './components/Users/AddUsers';
+import UsersList from './components/Users/UsersList';
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      task: [],
-      inputValue: ''
-    }
+const App = () => {
+
+  const [usersList, setUsersList] = useState([])
+
+  const addUserHandler = (uName, uAge) => {
+    setUsersList((prevUsersList) => { 
+      return [...prevUsersList, {name: uName, age: uAge, id: Math.random().toString()}];
+      
+    });
   }
 
-  render () {
-    const {task, inputValue} = this.state;
-
-    //  Take the input value and set the inputState state to the value of the input
-    const showInput = (e) => {
-      this.setState({inputValue: e.target.value})
-    }
-
-    // Store the value of the input state into the task array once the button is clicked
-    const showTask = () => {
-      if (inputValue.length > 0){
-        task.push(inputValue)
-        this.setState({inputValue: ''})
-        
-      } 
-    }
-
-    return (
-      <div className='container'>
-        <InputTask
-         task = {task}
-          showTask={showTask}
-          showInput = {showInput} 
-          inputValue = {inputValue}
-          />
-          
-      </div>
-    )
-  }
-    
+  return(
+    <div>
+      <AddUsers onAddUser = {addUserHandler}/>
+      <UsersList users = {usersList}/>
+    </div>
+  )
 }
+
 
 export default App;
